@@ -70,7 +70,11 @@ module Guard
       file_dir = File.dirname(file)
       file_name = File.basename(file).split('.')[0..-2].join('.')
 
-      file_name = "#{file_name}.html" if file_name.match("\.html?").nil?
+      if @options[:ext].nil?
+        file_name = "#{file_name}.html" if file_name.match("\.html?").nil?
+      elsif @options[:ext] && @options[:ext].length > 0
+        file_name = "#{file_name}.#{@options[:ext]}" if file_name.match("\.#{@options[:ext]}?").nil?
+      end
 
       file_dir = file_dir.gsub(Regexp.new("#{@options[:input]}(\/){0,1}"), '') if @options[:input]
       file_dir = File.join(@options[:output], file_dir) if @options[:output]
